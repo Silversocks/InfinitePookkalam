@@ -3,6 +3,7 @@ import turtle
 
 epsilon=0.1 
 t = turtle.Turtle(visible=False)
+depth=4
 
 class circle:
     def __init__(self, x, y, k):
@@ -13,7 +14,7 @@ class circle:
 
     def draw(self):
         t.penup()
-        t.goto(self.x, self.y - self.r)  # Move to bottom of circle
+        t.goto(self.x, self.y - self.r)
         t.pendown()
         t.circle(self.r)
         turtle.hideturtle()
@@ -59,7 +60,7 @@ def complex_decartes(c1,c2,c3,k4):
         ]
 
 def edist(x1,y1,x2,y2):
-    return abs(math.sqrt((x1-x2)**2+(y1-y2)**2))
+    return math.sqrt((x1-x2)**2+(y1-y2)**2)
 
 def validate(i,allcircles,a,b,c):
     for j in allcircles:
@@ -73,7 +74,7 @@ def tangent(c1,c2):
     d=c1.dist(c2)
     r1=c1.r
     r2=c2.r
-    return d-(r1+r2)<epsilon or d-abs(r1-r2)<epsilon
+    return abs(d-(r1+r2))<epsilon or abs(d-abs(r2-r1))<epsilon
 
 
 def draw(allcircles):
@@ -111,7 +112,6 @@ if __name__=="__main__":
 
     cp=complex_decartes(c1,c2,c3,k4)
     c4,c5=cp[0],cp[1]
-    q=pressed(q,allcircles)
-    q=pressed(q,allcircles)
-    q=pressed(q,allcircles)
+    for i in range(depth):
+        q=pressed(q,allcircles)
     draw(allcircles)
