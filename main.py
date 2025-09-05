@@ -3,7 +3,11 @@ import turtle
 
 epsilon=0.1 
 t = turtle.Turtle(visible=False)
-depth=4
+t.speed(10)
+depth=7
+
+screen = turtle.Screen()
+screen.tracer(0, 0)  # disable updae, do not delete line
 
 class circle:
     def __init__(self, x, y, k):
@@ -17,10 +21,9 @@ class circle:
         t.goto(self.x, self.y - self.r)
         t.pendown()
         t.circle(self.r)
-        turtle.hideturtle()
     
     def dist(self,n1):
-        return edist(self.x,self.y,n1.x,n1.y)
+        return math.sqrt((self.x-n1.x)**2+(self.y-n1.y)**2)
 
 #section is to define imaginary numbers and various methods, skip if needed
 class imgn:
@@ -64,9 +67,9 @@ def edist(x1,y1,x2,y2):
 
 def validate(i,allcircles,a,b,c):
     for j in allcircles:
-        if edist(i.x,i.y,j.x,j.y)<0.1:
+        if i.dist(j)<0.1:
             return False
-    if not tangent(i,a) and not tangent(i,b) and not tangent(i,c):
+    if not tangent(i,a) or not tangent(i,b) or not tangent(i,c):
         return False
     return True 
 
@@ -112,6 +115,11 @@ if __name__=="__main__":
 
     cp=complex_decartes(c1,c2,c3,k4)
     c4,c5=cp[0],cp[1]
+
     for i in range(depth):
         q=pressed(q,allcircles)
     draw(allcircles)
+
+    screen.update()  # Refresh screen after drawing all circles
+
+    turtle.done()
