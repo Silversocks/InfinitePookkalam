@@ -54,19 +54,20 @@ def complex_decartes(c1,c2,c3,k4):
         circle(sumn.sub(rootn).scale(1/k4[1]).a,sumn.sub(rootn).scale(1/k4[1]).b),
         ]
 
-c1=circle(100,100,-1/200)
-c2=circle(0,100,1/100)
-c3=circle(200,100,1/100)
-c1.draw()
-c2.draw()
-c3.draw()
+if __name__=="__main__":
+    c1=circle(100,100,-1/200)
+    c2=circle(0,100,1/100)
+    c3=circle(200,100,1/100)
+    c1.draw()
+    c2.draw()
+    c3.draw()
 
-k4=descartes(c1,c2,c3)
-r4=abs(1/k4[0])
+    k4=descartes(c1,c2,c3)
+    r4=abs(1/k4[0])
 
-cp=complex_decartes(c1,c2,c3,k4)
-c4,c5=cp[0],cp[1]
-c4=circle(c4.a,c4.b,k4[0])
-c5=circle(c5.a,c5.b,k4[0])
-c4.draw()
-c5.draw()
+    cp=complex_decartes(c1,c2,c3,k4)
+    c4,c5=cp[0],cp[1]
+    c4=circle(c4.a,c4.b,k4[0])
+    c5=circle(c5.a,c5.b,k4[0])
+    c4.draw()
+    c5.draw()
