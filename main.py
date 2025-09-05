@@ -115,4 +115,3 @@ if __name__=="__main__":
     q=pressed(q,allcircles)
     q=pressed(q,allcircles)
     draw(allcircles)
-
