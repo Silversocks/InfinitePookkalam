@@ -1,6 +1,9 @@
 import math
 import turtle
 
+epsilon=0.1 
+t = turtle.Turtle(visible=False)
+
 class circle:
     def __init__(self, x, y, k):
         self.x = x
@@ -9,11 +12,14 @@ class circle:
         self.r = abs(1 / k)
 
     def draw(self):
-        t = turtle.Turtle()
         t.penup()
         t.goto(self.x, self.y - self.r)  # Move to bottom of circle
         t.pendown()
         t.circle(self.r)
+        turtle.hideturtle()
+    
+    def dist(self,n1):
+        return edist(self.x,self.y,n1.x,n1.y)
 
 #section is to define imaginary numbers and various methods, skip if needed
 class imgn:
@@ -52,11 +58,29 @@ def complex_decartes(c1,c2,c3,k4):
         circle(sumn.sub(rootn).scale(1/k4[0]).a,sumn.sub(rootn).scale(1/k4[0]).b,k4[0]),
         ]
 
-def draw():
+def edist(x1,y1,x2,y2):
+    return abs(math.sqrt((x1-x2)**2+(y1-y2)**2))
+
+def validate(i,allcircles,a,b,c):
+    for j in allcircles:
+        if edist(i.x,i.y,j.x,j.y)<0.1:
+            return False
+    if not tangent(i,a) and not tangent(i,b) and not tangent(i,c):
+        return False
+    return True 
+
+def tangent(c1,c2):
+    d=c1.dist(c2)
+    r1=c1.r
+    r2=c2.r
+    return d-(r1+r2)<epsilon or d-abs(r1-r2)<epsilon
+
+
+def draw(allcircles):
     for i in allcircles:
         i.draw()
 
-def pressed(q):
+def pressed(q,allcircles):
     nextq=[]
     for i in q:
         [a,b,c]=i
@@ -64,13 +88,14 @@ def pressed(q):
         r4=abs(1/k4[0])
         newcircles=complex_decartes(a,b,c,k4)    
         for i in newcircles:
-            allcircles.append(i)
-            t1=[a,b,i]
-            t2=[c,b,i]
-            t3=[a,c,i]
-        nextq.append(t1)
-        nextq.append(t2)
-        nextq.append(t3)
+            if validate(i,allcircles,a,b,c):
+                allcircles.append(i)
+                t1=[a,b,i]
+                t2=[c,b,i]
+                t3=[a,c,i]
+                nextq.append(t1)
+                nextq.append(t2)
+                nextq.append(t3)
     return nextq
 
 if __name__=="__main__":
@@ -86,8 +111,8 @@ if __name__=="__main__":
 
     cp=complex_decartes(c1,c2,c3,k4)
     c4,c5=cp[0],cp[1]
-    q=pressed(q)
-    q=pressed(q)
-    q=pressed(q)
-    draw()
+    q=pressed(q,allcircles)
+    q=pressed(q,allcircles)
+    q=pressed(q,allcircles)
+    draw(allcircles)
 
