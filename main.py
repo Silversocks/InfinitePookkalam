@@ -48,26 +48,46 @@ def complex_decartes(c1,c2,c3,k4):
     sumn=f1.add(f2).add(f3)
     rootn=f1.mult(f2).add(f2.mult(f3)).add(f3.mult(f1)).sqrt().scale(2)
     return [
-        circle(sumn.add(rootn).scale(1/k4[0]).a,sumn.add(rootn).scale(1/k4[0]).b),
-        circle(sumn.sub(rootn).scale(1/k4[0]).a,sumn.sub(rootn).scale(1/k4[0]).b),
-        circle(sumn.add(rootn).scale(1/k4[1]).a,sumn.add(rootn).scale(1/k4[1]).b),
-        circle(sumn.sub(rootn).scale(1/k4[1]).a,sumn.sub(rootn).scale(1/k4[1]).b),
+        circle(sumn.add(rootn).scale(1/k4[0]).a,sumn.add(rootn).scale(1/k4[0]).b,k4[0]),
+        circle(sumn.sub(rootn).scale(1/k4[0]).a,sumn.sub(rootn).scale(1/k4[0]).b,k4[0]),
         ]
+
+def draw():
+    for i in allcircles:
+        i.draw()
+
+def pressed(q):
+    nextq=[]
+    for i in q:
+        [a,b,c]=i
+        k4=descartes(a,b,c)
+        r4=abs(1/k4[0])
+        newcircles=complex_decartes(a,b,c,k4)    
+        for i in newcircles:
+            allcircles.append(i)
+            t1=[a,b,i]
+            t2=[c,b,i]
+            t3=[a,c,i]
+        nextq.append(t1)
+        nextq.append(t2)
+        nextq.append(t3)
+    return nextq
 
 if __name__=="__main__":
     c1=circle(100,100,-1/200)
     c2=circle(0,100,1/100)
     c3=circle(200,100,1/100)
-    c1.draw()
-    c2.draw()
-    c3.draw()
+
+    allcircles=[c1,c2,c3]
+    q=[[c1,c2,c3]]
 
     k4=descartes(c1,c2,c3)
     r4=abs(1/k4[0])
 
     cp=complex_decartes(c1,c2,c3,k4)
     c4,c5=cp[0],cp[1]
-    c4=circle(c4.a,c4.b,k4[0])
-    c5=circle(c5.a,c5.b,k4[0])
-    c4.draw()
-    c5.draw()
+    q=pressed(q)
+    q=pressed(q)
+    q=pressed(q)
+    draw()
+
