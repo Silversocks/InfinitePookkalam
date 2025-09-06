@@ -1,62 +1,78 @@
 import turtle
-import colorsys
+import math
 
-# Setup turtle screen
+t = turtle.Turtle()
 screen = turtle.Screen()
 screen.bgcolor("white")
-screen.title("Pookkalam Function")
+screen.tracer(0, 0)
 
-pen = turtle.Turtle()
-pen.speed(0)
-pen.hideturtle()
+t.speed(0)
+t.pensize(2)
+t.hideturtle()
 
-# Function to draw a petal
-def draw_petal(pen, radius):
-    pen.circle(radius, 60)
-    pen.left(120)
-    pen.circle(radius, 60)
-    pen.left(120)
 
-# Function to draw a flower at (x, y) with total_radius
-def draw_pookkalam_at(x, y, total_radius, num_layers=2, petals_per_layer=5):
-    hue = 0
-    layer_thickness = total_radius / num_layers
+colors = ["#FF6347", "#FFD700", "#32CD32", "#FF69B4", "#1E90FF", "#DA70D6"]
 
-    for i in range(num_layers):
-        current_radius = total_radius - i * layer_thickness
 
-        # Move turtle to start position for layer
-        pen.penup()
-        pen.goto(x, y)
-        pen.setheading(0)
-        pen.pendown()
+def triangle(x, y, r, d=0, color="#FF1E1E"):
+    l = (r*math.sqrt(3))/2
 
-        # Generate color
-        hue += 0.12
-        rgb = colorsys.hsv_to_rgb(hue % 1, 1, 1)
-        color = tuple(int(c * 255) for c in rgb)
-        hex_color = '#%02x%02x%02x' % color
+    t.color(color)
+    t.fillcolor(color)
+    t.penup()
+    t.goto(x, y)
+    t.setheading(d)
+    t.forward(l / 2)
+    t.left(120)     
+    t.pendown()
 
-        # Draw flower layer
-        pen.color(hex_color)
-        pen.begin_fill()
-        for _ in range(petals_per_layer):
-            draw_petal(pen, current_radius / 3)
-            pen.right(360 / petals_per_layer)
-        pen.end_fill()
+    t.begin_fill()
+    for _ in range(3):
+        t.forward(l)
+        t.left(120)
+    t.end_fill()
 
-# Function to draw a circle around the Pookkalam
-def draw_circle_around_pookkalam(x, y, radius):
-    pen.penup()
-    pen.goto(x, y - radius)  # Move to bottom of the circle
-    pen.setheading(0)
-    pen.pendown()
-    pen.pensize(5)  # Optional: make the outline thicker
-    pen.color("black")  # Circle color
-    pen.circle(radius)
+def draw_circle(x,y,radius,color):
+    t.penup()
+    t.goto(x+radius, y)  
+    t.setheading(0)  
+    t.pendown()
+    t.color("white")
+    t.lt(90)
+    t.fillcolor(color)
+    t.begin_fill()
+    t.circle(radius=radius)
+    t.end_fill()
 
-# Example usage
-draw_pookkalam_at(0, 0, 500)
-draw_circle_around_pookkalam(0, 0, 180)  # Slightly bigger radius to go around
+def draw_qcircle(colors):
+    t.penup()
+    t.goto(0, 0)  
+    t.setheading(0)  
+    t.pendown()
+    t.color("white")
+    for i in range(4):
+        t.fillcolor(colors[i])
+        t.backward(75)
+        t.rt(90)
+        t.begin_fill()
+        t.circle(75,90,200) 
+        t.lt(90)
+        t.forward(75)
+        t.end_fill()
 
+draw_circle(0,0,165,"light green")
+
+for i in range(24):
+    angle = 360 / 24
+    triangle(0, 0, 200, i * angle,"red")
+for i in range(24):
+    angle=360/24
+    triangle(0,0,165,i*angle+7.5,color="orange")
+for i in range(24):
+    angle=360/24
+    triangle(0,0,130,i*angle,color="yellow")
+
+draw_qcircle(["red","orange","green","yellow"])
+
+screen.update()
 turtle.done()
