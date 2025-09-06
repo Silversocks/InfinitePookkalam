@@ -4,7 +4,8 @@ import turtle
 epsilon=0.1 
 t = turtle.Turtle(visible=False)
 t.speed(10)
-depth=7
+t.pensize(0.1)
+depth=5
 
 screen = turtle.Screen()
 screen.tracer(0, 0)  # disable updae, do not delete line
@@ -20,7 +21,7 @@ class circle:
         t.penup()
         t.goto(self.x, self.y - self.r)
         t.pendown()
-        t.circle(self.r)
+        t.circle(self.r,steps=500)
     
     def dist(self,n1):
         return math.sqrt((self.x-n1.x)**2+(self.y-n1.y)**2)
@@ -84,7 +85,8 @@ def draw(allcircles):
     for i in allcircles:
         i.draw()
 
-def pressed(q,allcircles):
+#basically doing recursion
+def cycle(q,allcircles):
     nextq=[]
     for i in q:
         [a,b,c]=i
@@ -117,7 +119,7 @@ if __name__=="__main__":
     c4,c5=cp[0],cp[1]
 
     for i in range(depth):
-        q=pressed(q,allcircles)
+        q=cycle(q,allcircles)
     draw(allcircles)
 
     screen.update()  # Refresh screen after drawing all circles
