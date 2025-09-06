@@ -21,7 +21,7 @@ class circle:
         t.penup()
         t.goto(self.x, self.y - self.r)
         t.pendown()
-        t.circle(self.r,steps=500)
+        t.circle(self.r,steps=200)
     
     def dist(self,n1):
         return math.sqrt((self.x-n1.x)**2+(self.y-n1.y)**2)
